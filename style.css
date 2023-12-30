@@ -1,12 +1,27 @@
 body{
     display: flex;
+    flex-direction: column;
+    gap: 30px;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    height: 200vh;
 }
-canvas{
+.canvas1{
     width: 50vw;
     height: 70vh;
     outline: 1px solid black;
-    
 }
+.canvas2{
+    width: 50vw;
+    height: 70vh;
+    outline: 1px solid black;
+}
+.canvas3{
+    width: 50vw;
+    height: 70vh;
+    outline: 1px solid black;
+    background-image: url('horses-desktop.jpg');
+    background-position: center;
+    background-size: cover;
+}
+
