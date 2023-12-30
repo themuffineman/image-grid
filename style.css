@@ -4,7 +4,7 @@ body{
     gap: 30px;
     justify-content: center;
     align-items: center;
-    height: 200vh;
+    height: max-content;
 }
 .canvas{
     width: 50vw;

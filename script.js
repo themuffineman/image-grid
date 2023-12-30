@@ -55,13 +55,15 @@ fileInput.addEventListener('change', imageHandler);
 const img = new Image();
 
 
-
+ 
 //---------------Functions------------------//
 
 
 img.onload = function() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
     imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+    console.log('hello')
     
     for (var a=0; a <= canvas.height - 1 ; a++){
         var rowArray = []
@@ -75,7 +77,7 @@ img.onload = function() {
                 rgbCounter++
             }
             rowArray.push(rgbArray)            
-            ctx.fillStyle = `rgba(${rgbArray[0]+slider.value},${rgbArray[1]+slider.value},${rgbArray[2]+slider.value},${rgbArray[3]+slider.value})`;
+            ctx.fillStyle = `rgba(${rgbArray[0]},${rgbArray[1]},${rgbArray[2]},${rgbArray[3]})`;
             ctx.fillRect(b, a, 1, 1); 
         }
 
@@ -84,24 +86,26 @@ img.onload = function() {
 
 }
 
+
+
+
 function imageHandler(){
 
     var selectedFile = fileInput.files[0];
-
+    // console.log('hello')
     var reader = new FileReader()
 
 
     reader.onload = function (e) {
-        var imageData = e.target.result;
+        var imageBase64 = e.target.result;
         // console.log(imageData)
         var imgElement = document.createElement('img');
-        imgElement.src = imageData;
-        img.src = imageData
+        imgElement.src = imageBase64;
+        img.src = imageBase64
         document.body.appendChild(imgElement);
     }
 
     reader.readAsDataURL(selectedFile)
-
 }
 
 
