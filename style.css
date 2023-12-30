@@ -6,22 +6,23 @@ body{
     align-items: center;
     height: 200vh;
 }
-.canvas1{
+.canvas{
     width: 50vw;
     height: 70vh;
     outline: 1px solid black;
 }
-.canvas2{
-    width: 50vw;
-    height: 70vh;
-    outline: 1px solid black;
+.wrapper{
+    width: max-content;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
 }
-.canvas3{
-    width: 50vw;
-    height: 70vh;
-    outline: 1px solid black;
-    background-image: url('horses-desktop.jpg');
-    background-position: center;
-    background-size: cover;
+input[type='range']{
+    width: 50%;
+    height: 20px;
+}
+input[type="file"]{
+    border: 1px solid black;
 }
 

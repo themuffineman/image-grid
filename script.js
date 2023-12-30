@@ -1,52 +1,108 @@
-const canvas = document.querySelector(".canvas1");
-const canvas2 = document.querySelector(".canvas2");
-const canvas3 = document.querySelector(".canvas3");
+
+//---------------Variable Init------------------//
+
+
+const canvas = document.querySelector(".canvas");
+const fileInput = document.querySelector("input")
+const slider = document.querySelector('#slider')
+const label = document.querySelector('output')
 const ctx = canvas.getContext("2d");
-const ctx2 = canvas2.getContext("2d");
-const ctx3 = canvas3.getContext("2d");
+ctx.imageSmoothingEnabled = true;
 let imageData = 0;
-
-const img = new Image();
-
-img.src = 'horses-desktop.jpg'
 var rgbCounter = 0
 var mainArray = []
+var rgbArray = []   
+
+
+//---------------Event Listeners------------------//
+
+
+slider.addEventListener('input', ()=>{
+    label.innerText = `Brightness: ${slider.value}`
+    
+    for (var e=0; e <= mainArray.length-1; e++ ){
+
+        for (var f=0; f <= mainArray[0].length-1; f++){
+
+            let originalRed = mainArray[e][f][0];
+            let originalGreen = mainArray[e][f][1];
+            let originalBlue = mainArray[e][f][2];
+            let originalAlpha = mainArray[e][f][3];
+
+            // Apply brightness adjustment to each RGB component
+            let adjustedRed = parseInt(originalRed) + parseInt(slider.value);
+            let adjustedGreen = parseInt(originalGreen) + parseInt(slider.value);
+            let adjustedBlue = parseInt(originalBlue) + parseInt(slider.value);
+
+            // Ensure that the adjusted values are within the valid range (0 to 255)
+            adjustedRed = Math.min(255, Math.max(0, adjustedRed));
+            adjustedGreen = Math.min(255, Math.max(0, adjustedGreen));
+            adjustedBlue = Math.min(255, Math.max(0, adjustedBlue));
+
+            // Set the adjusted color as the fillStyle
+            ctx.fillStyle = `rgba(${adjustedRed},${adjustedGreen},${adjustedBlue},${originalAlpha})`;
+            ctx.fillRect(f, e, 1, 1);
+            ctx.fillStyle = `rgba(${mainArray[e][f][0]+slider},${mainArray[e][f][1]},${mainArray[e][f][2]},${mainArray[e][f][3]})`;
+            ctx.fillRect(f, e, 1, 1);  
+
+        }
+    }
+
+
+})
+
+fileInput.addEventListener('change', imageHandler);
+const img = new Image();
+
+
+
+//---------------Functions------------------//
 
 
 img.onload = function() {
     ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
     imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-    console.log(imageData)
     
     for (var a=0; a <= canvas.height - 1 ; a++){
         var rowArray = []
 
         for (var b=0; b <= canvas.width - 1; b++){
             
-            var rgbArray = []   
+            rgbArray = []   
 
             for (var c=0; c <= 3; c++){
                 rgbArray.push(imageData.data[rgbCounter])
                 rgbCounter++
             }
             rowArray.push(rgbArray)            
-            ctx2.fillStyle = `rgba(${rgbArray[0]},${rgbArray[1]},${rgbArray[2]},${rgbArray[3]})`;
-            ctx2.fillRect(b, a, 1, 1);
-            ctx.fillStyle = `rgba(${rgbArray[0]},${rgbArray[2]},${rgbArray[1]},${rgbArray[3]})`;
+            ctx.fillStyle = `rgba(${rgbArray[0]+slider.value},${rgbArray[1]+slider.value},${rgbArray[2]+slider.value},${rgbArray[3]+slider.value})`;
             ctx.fillRect(b, a, 1, 1); 
         }
 
         mainArray.push(rowArray)
     };
-    console.log(mainArray)
 
 }
 
+function imageHandler(){
+
+    var selectedFile = fileInput.files[0];
+
+    var reader = new FileReader()
 
 
+    reader.onload = function (e) {
+        var imageData = e.target.result;
+        // console.log(imageData)
+        var imgElement = document.createElement('img');
+        imgElement.src = imageData;
+        img.src = imageData
+        document.body.appendChild(imgElement);
+    }
 
+    reader.readAsDataURL(selectedFile)
 
-    
+}
 
 
 
