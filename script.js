@@ -61,9 +61,10 @@ const img = new Image();
 
 img.onload = function() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
+    // console.log(img)
     ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
     imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-    console.log('hello')
+    // console.log('hello2')
     
     for (var a=0; a <= canvas.height - 1 ; a++){
         var rowArray = []
